@@ -15,18 +15,18 @@ api = tweepy.API(auth,  wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 
 Category = {
-        'Sport': 'Football OR Basketball OR Golf OR Racing OR Soccer OR Tennis',
+        'Sport': 'Football OR Basketball OR Golf OR Racing OR Soccer OR Tennis OR NFL OR Race OR WORLD CUP',
         'Art': 'Design OR Architecture OR Illustrator OR Drawing OR Draw',
-        'Music': 'Song OR Music',
-	'Tech': 'Tech OR Hardware OR Computer OR Pc OR MasterRace',
+        'Music': 'Song OR Music OR Tone OR Guitar OR Piano ',
+	'Tech': 'Tech OR Hardware OR Computer OR Pc OR MasterRace OR Gaming',
         'Food' : 'Cooking OR Chef OR Vegan OR Food OR Recipes OR Beers',
         'Fashion' : 'Fashion OR Luxury OR Styling OR Shoes OR Beauty OR Accessories OR Jewelry',
         }
 
 def data_org(path_):
         data = {
-                'Name': [],
                 'Screen_name': [],
+                'Name': [],
                 'Number_of_Followers': [],
                 #'Number of tweets' : [],
                 'Location' : [],
@@ -40,10 +40,10 @@ def data_org(path_):
                 reach_score = tweet.user.followers_count - tweet.user.friends_count
                 #popularity_score = tweet.retweet_count + tweet.favorite_count
                 #relevance_score = tweet.reply_count + tweet.quote_count
-                if tweet.user.followers_count > 5000 and reach_score > 0: #tweet.user.verified is True:
+                if reach_score > 6000 and reach_score > 0: #tweet.user.verified is True:
                         new_row = {
-                                'Name':tweet.user.name,
                                 'Screen_name':"@" + tweet.user.screen_name,
+                                'Name':tweet.user.name,
                                 'Number_of_Followers':tweet.user.followers_count,
                                 #'Number of tweets':tweet.user.statuses_count,
                                 'Location':tweet.user.location,
@@ -68,6 +68,6 @@ print("Scelte: Art, Food, Music, Sport, Tech, Fashion")
 scelta = input("scelta:")
 for t, q in Category.items():
         if scelta == t:
-                tweets = tweepy.Cursor(api.search,q).items(1000)
-                path_ = "C:\\Users\\Andrew\\Desktop\\Multicollab\\file_csv\\"+"INF_"+scelta+".csv"
+                tweets = tweepy.Cursor(api.search,q).items(1500)
+                path_ = "C:\\Users\\Andrew\\Desktop\\PROGETTO_FINAL\\PROGETTO_MCOLLAB\\file_csv\\"+"INF_"+scelta+".csv"
                 data_org(path_)
