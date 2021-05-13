@@ -1,0 +1,21 @@
+
+An influencer could be a:
+Sport = RACING BASKETBALL SWIMMING HOCKEY FOOTBALL SOCCER GOLF OLYMPIC TENNIS
+Art = ACTORS DESIGN ARCHITECTURE ILLUSTRATOR MUSIC SONG WRITING POETRY WRITERS
+Tech = GADGETS APPLE ANDROID DEVELOPERS GEEK SOCIAL MEDIA HARDWARE ANALYTICS
+Food = VEGAN COOKING FOODIE WINERIES BEER CHEF RECIPES COOKBOOKS RESTAURANTS
+Business = INVESTORS MARKETING FOUNDER CEO CONSULTING FINANCE PUBLIC RELATION ENTREPRENEUR
+News & Politics = ACTIVIST REPORTER JOURNALIST HUMAN RIGHTS CORRESPONDENT RELIGION BLOGGER GREEN
+Fashion = BEAUTY ACCESSORIES JEWLERY BAGS LUXURY COUPONS STYLING SHOES COSMETICS
+
+Data Mining Using Twitter
+After I had extracted all the twitter handles by scraping as I have shown above, I needed to help NIKE do the following:
+MY FIRST ANALYSIS
+Analyze each of the government and nongovernment’s influencer’s followers counts, number of likes each of the influencer got, number of retweets, number of people they followed, and number of tweets they shared.
+Score each of the influencers and top government officials as follows:
+(a.) popularity_score = number of retweets + number of likes
+(b.) reach_score = number of followers — number of people they follow
+(c.) relevance_score = number of comments + number of mentions in other tweets
+MY SECOND ANALYSIS
+Extract the top 5 unique hashtags these influencers and government officials used in their top 10 retweets. Group them based on their top 5 hashtags similarities.
+Make a bar plot to show the fraction of influencers and top government officials by hashtag.
