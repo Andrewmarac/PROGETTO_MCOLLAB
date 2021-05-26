@@ -1,9 +1,5 @@
 import tweepy
 import pandas as pd
-import os
-import glob
-os.chdir("C:\\Users\\Jana\\Desktop\\prog\\PROGETTO_MCOLLAB\\file_csv")
-
 
 consumer_key='JWdPxO0jPLt2WWlKMXcC2YyHB'
 consumer_secret='ZkkealjKf7tLsjbWrAJdn72CHqw4YqsQM9IaGZJsp4fNUnIMkC'
@@ -25,7 +21,7 @@ Category = {
         'Fashion' : '#Fashion OR #Luxury OR #Styling OR #Shoes OR #Beauty OR #Accessories OR #Jewelry',
         }
 
-def data_org(path_,cat):
+def data_org(path_):
         data = {
                 'Screen_name': [],
                 'Name': [],
@@ -38,7 +34,6 @@ def data_org(path_,cat):
                 'Url':[],
                 'description':[],
                 'profile_image':[],
-                'Category':[]
         }	
 
         df_marks = pd.DataFrame(data)
@@ -56,7 +51,6 @@ def data_org(path_,cat):
                                 'Url':tweet.user.url,
                                 'description':tweet.user.description,
                                 'profile_image':tweet.user.profile_image_url_https,
-                                'Category':cat,
                                 #'reach_score':reach_score,
                                 #'popularity_score':popularity_score,
                                 #'relevance_score':relevance_score,
@@ -76,23 +70,6 @@ print("Scelte: Art, Food, Music, Sport, Tech, Fashion")
 scelta = input("scelta:")
 for t, q in Category.items():
         if scelta == t:
-                tweets = tweepy.Cursor(api.search,q).items(500)
+                tweets = tweepy.Cursor(api.search,q).items(50)
                 path_ = "C:\\Users\\Jana\\Desktop\\prog\\PROGETTO_MCOLLAB\\file_csv\\"+"INF_"+scelta+".csv"
-                data_org(path_,scelta)
-
-
-def combinecsv():
-        extension = 'csv'
-        all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
-
-        #combine all files in the list
-        combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
-        #duplicate eliminate
-        combined_csv.drop_duplicates(subset = ['Screen_name'], keep='last', inplace = True)
-        #export to csv
-        combined_csv.to_csv( "AllInfluencer.csv", index=False, encoding='utf-8-sig')
-
-print("Combine csv?: ")
-sc = input("Inserisci si se vuoi")
-if sc == "si":
-        combinecsv()
+                data_org(path_)
