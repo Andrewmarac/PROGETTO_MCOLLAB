@@ -46,7 +46,7 @@ def data_org(path_,cat):
                 reach_score = tweet.user.followers_count - tweet.user.friends_count
                 popularity_score = tweet.retweet_count + tweet.favorite_count
                 #relevance_score = tweet.reply_count + tweet.quote_count
-                if reach_score > 6000 and reach_score > 0 and  popularity_score > 0: #tweet.user.verified is True:
+                if reach_score > 6000 and popularity_score > 0: #tweet.user.verified is True:
                         new_row = {
                                 'Screen_name':"@" + tweet.user.screen_name,
                                 'Name':tweet.user.name,
