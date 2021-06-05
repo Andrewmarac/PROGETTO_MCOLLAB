@@ -2,8 +2,10 @@ import tweepy
 import pandas as pd
 import os
 import glob
-os.chdir("C:\\Users\\Jana\\Desktop\\prog\\PROGETTO_MCOLLAB\\file_csv")
+import seaborn as sns
+from matplotlib import pyplot as plt
 
+os.chdir("C:\\Users\\Andrew\\Desktop\\elaborato\\PROGETTO_MCOLLAB\\file_csv")
 
 consumer_key='JWdPxO0jPLt2WWlKMXcC2YyHB'
 consumer_secret='ZkkealjKf7tLsjbWrAJdn72CHqw4YqsQM9IaGZJsp4fNUnIMkC'
@@ -30,15 +32,14 @@ def data_org(path_,cat):
                 'Screen_name': [],
                 'Name': [],
                 'Number_of_Followers': [],
-                #'Number of tweets' : [],
                 'Location' : [],
-                #'reach_score' : [],
-                #'popularity_score' : [],
-                #'relevance_score' : [],
                 'Url':[],
                 'description':[],
                 'profile_image':[],
-                'Category':[]
+                'Category':[],
+                'reach_score' : [],
+                'popularity_score' : []
+                #'relevance_score' : []
         }	
 
         df_marks = pd.DataFrame(data)
@@ -51,14 +52,13 @@ def data_org(path_,cat):
                                 'Screen_name':"@" + tweet.user.screen_name,
                                 'Name':tweet.user.name,
                                 'Number_of_Followers':tweet.user.followers_count,
-                                #'Number of tweets':tweet.user.statuses_count,
                                 'Location':tweet.user.location,
                                 'Url':tweet.user.url,
                                 'description':tweet.user.description,
                                 'profile_image':tweet.user.profile_image_url_https,
                                 'Category':cat,
-                                #'reach_score':reach_score,
-                                #'popularity_score':popularity_score,
+                                'reach_score':reach_score,
+                                'popularity_score':popularity_score,
                                 #'relevance_score':relevance_score,
                                 }
                         df_marks = df_marks.append(new_row, ignore_index=True)
@@ -70,15 +70,75 @@ def data_org(path_,cat):
         print(df_marks.sort_values(by=['Number_of_Followers'], ascending = False))
         print('-' * 200)
 
-        df_marks.to_csv(path_)
+
+        data_visual(df_marks, cat)
+
+
+        print("Vuoi salvarlo in un fle csv? si/no")
+        ans = input("si o no")
+        if ans == "si":
+                df_marks.to_csv(path_)
+        else:
+                print("Dataframe non salvata")
+
+def data_visual(influencer_df, cat_):
+        #bar plot - popularity score
+        plt.figure(figsize=(20,10)) #customizing the size of the plot
+        sns.set(style="darkgrid") #customizing the style of the plot
+        #visualizing the data using bar plot
+        ax = sns.barplot(x='Screen_name', y='popularity_score', palette="Greens_d",
+                        data=influencer_df.sort_values(by='popularity_score', ascending=False)[0:10]
+                        )
+        #getting the values of the data
+        for p in ax.patches:
+                ax.annotate(format(p.get_height()), (p.get_x() + p.get_width() / 2.,
+                p.get_height()), ha = 'center', va = 'center', 
+                xytext = (0, 10), textcoords = 'offset points')
+
+
+        #setting the parameters for the title, x and y labels of the plot
+        ax.set_title("Popularity Score for Top " + cat_ , size=40, weight='bold')
+        ax.set_xlabel("Twitter Screen Names", size=20, weight='bold')
+        ax.set_ylabel("Popularity_score(retweets+likes)", size=20, weight='bold')
+        #changing the rotation of the x axis tick labels 
+        for item in ax.get_xticklabels():
+                item.set_rotation(45)
+                
+        plt.savefig('popular.png') #saving the figure
+        plt.show()
+
+        #bar plot - reach score
+        plt.figure(figsize=(20,10))
+        sns.set(style="darkgrid")
+        ax = sns.barplot(x='Screen_name', y='reach_score', palette="Greens_d",
+                        data=influencer_df.sort_values(by='reach_score', ascending=False)[0:10]
+                        )
+        for p in ax.patches:
+                ax.annotate(format(p.get_height()), (p.get_x() + p.get_width() / 2.,
+                p.get_height()), ha = 'center', va = 'center', 
+                xytext = (0, 10), textcoords = 'offset points')
+
+
+        ax.set_title("Reach Score for Top " + cat_ , size=40, weight='bold')
+        ax.set_xlabel("Twitter Screen Names", size=20, weight='bold')
+        ax.set_ylabel("Reach Score(Followers-Following)", size=20, weight='bold')
+        for item in ax.get_xticklabels():
+                item.set_rotation(45)
+                
+        plt.savefig('reach.png') 
+        plt.show()
+
 
 print("Scelte: Art, Food, Music, Sport, Tech, Fashion")
 scelta = input("scelta:")
 for t, q in Category.items():
         if scelta == t:
                 tweets = tweepy.Cursor(api.search,q).items(500)
-                path_ = "C:\\Users\\Jana\\Desktop\\prog\\PROGETTO_MCOLLAB\\file_csv\\"+"INF_"+scelta+".csv"
+                path_ = "C:\\Users\\Andrew\\Desktop\\elaborato\\PROGETTO_MCOLLAB\\file_csv\\"+"INF_"+scelta+".csv"
                 data_org(path_,scelta)
+
+
+
 
 
 def combinecsv():
